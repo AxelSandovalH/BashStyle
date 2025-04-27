@@ -1,0 +1,34 @@
+#!/bin/bash
+ 
+# Carpeta a monitorear
+
+WATCH_DIR="$HOME/BASHSTYLE/test_folder" # Cambia esto si quieres
+
+# Archivo donde guardamos el "estado anterior"
+STATE_FILE="$HOME/BASHSTYLE/last_state.md5"
+
+# Archivo temporal para el estado actual 
+CURRENT_STATE=$(mktemp)
+
+# Crear carpeta si no existe
+mkdir -p "$WATCH_DIR"
+
+# Generar el estado acutal: listar archivos + checksum
+find "$WATCH_DIR" -type f -exec md5sum {} \ | sort > "$CURRENT_STATE"
+
+# Comparar con el estado anterior
+if [ -f "$STATE_FILE" ]; then
+	if cmp -s "$CURRENT_STATE" "STATE_FILE"; then
+		echo "No hay cambios detectados en $WATCH_DIR."
+	else
+		echo "Cambios detectados en $WATCH_DIR"
+	fi
+else
+	echo "No habia registro anterior Guardando estado inicial"
+fi
+
+# Actualizar el archivo de estado para la proxima ejecucion
+cp "$CURRENT_STATE" "$STATE_FILE"
+
+# Borrar el archivo temporal
+rm "$CURRENT_STATE"
