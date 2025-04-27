@@ -36,7 +36,16 @@ if [ -f "$STATE_FILE" ]; then
 	export DISPLAY=:0
 	export XAUTHORITY="$HOME/.Xauthority"
 	notify-send "Backup autormatico" "Backup creado: backup_$DATE.tar.gz" --icon=dialog-information
-
+	
+	# Rotar backups
+	MAX_BACKUPS=5
+	BACKUP_COUNT=$(ls -1 "$BACKUP_DIR"/*.tar.gz 2>/dev/null | wc -l)
+	if [ "$BACKUP_COUNT" -gt "$MAX_BACKUPS" ];then 
+		OLDEST_BACKUPS=$(ls -1t "$BACKUP_DIR"/*.tar.gz | tail -n +$(($MAX_BACKUPS + 1)))
+	for backup in $OLDEST_BACKUPS; do
+		echo "Eliminando backup antiguo: $backup"
+		rm -f "$backup"
+	done
     fi
 else
     echo "No había registro anterior. Guardando estado inicial."
