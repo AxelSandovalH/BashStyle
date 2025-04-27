@@ -1,0 +1,18 @@
+CPU
+yes > /dev/null &
+
+Este comando "yes" imprime infinitos "y" y lo manda al vacio (/dev/null)
+satura un nucleo del procesador a 100%
+
+Cuando acabes, termina los procesos asi 
+killall yes
+
+RAM
+dd if=/dev/zero of=/dev/shm/testfile bs=1M count=10000
+
+Este comando crea un archivo llamado testfile en /dev/shm (Que es RAM directamente)
+bs=1M es bloque de 1 Megabyte
+count=10000 son los 10000 bloques = 10GB en RAM
+
+cuando acabes liberas la RAM asi 
+rm /dev/shm/testfile

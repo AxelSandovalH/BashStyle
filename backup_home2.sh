@@ -3,7 +3,7 @@
 # Variables
 BACKUP_DIR="$HOME/backups"
 DATE=$(date +%Y-%m-%d_%H-%M-%S)
-BACKUP_FILE="$BACKUP_DIR_/backup_$DATE.tar.gz"
+BACKUP_FILE="$BACKUP_DIR/backup_$DATE.tar.gz"
 SOURCE_DIR="$HOME"
 DAYS_TO_KEEP=7 # <-- Numero de dias que quieres conservar los backups
 
